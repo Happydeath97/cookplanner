@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import Ingredients, Recipe, ReceiptIngredients
+from .models import Ingredients, Recipe, RecipeIngredients, Taste
 
 # Register your models here.
 
 
 class RecipeIngredientInline(admin.TabularInline):
-    model = ReceiptIngredients
+    model = RecipeIngredients
     extra = 1
 
 
@@ -24,4 +24,7 @@ class RecipeAdmin(admin.ModelAdmin):
 
 admin.site.register(Ingredients, IngredientsAdmin)
 admin.site.register(Recipe, RecipeAdmin)
-admin.site.register(ReceiptIngredients)
+admin.site.register(RecipeIngredients)
+admin.site.register(Taste)
+
+
