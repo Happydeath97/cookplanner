@@ -25,8 +25,8 @@ class Taste(models.Model):
 class Recipe(models.Model):
 
     name = models.CharField(max_length=50)
-    prep_time = models.IntegerField(validators=[MinValueValidator(1)])
-    cook_time = models.IntegerField(validators=[MinValueValidator(1)])
+    prep_time = models.DurationField()
+    cook_time = models.DurationField()
     difficulty = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(3)])
     description = models.TextField(blank=True)
     taste = models.ForeignKey(Taste, on_delete=models.PROTECT, related_name='taste')
@@ -52,5 +52,3 @@ class RecipeIngredients(models.Model):
 
     def __repr__(self):
         return f"{self.ingredients.name} -> {self.recipe.name} {self.amount}g"
-
-

@@ -4,6 +4,7 @@ from cookplanner_app.models import Recipe
 
 # Create your models here.
 
+
 class User(AbstractUser):
     date_of_birth = models.DateField(null=True, blank=True)
 

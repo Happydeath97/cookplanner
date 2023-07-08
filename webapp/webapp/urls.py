@@ -16,12 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
-from cookplanner_app import views
-from cookplanner_app.views import AllRecipesView
+from cookplanner_app.views import IndexView, AllRecipesView
+from users.views import LoginView, LogoutView, RegisterView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", views.IndexView.as_view(), name="index"),
+    path("", IndexView.as_view(), name="index"),
+    path("login/", LoginView.as_view(), name="login"),
+    path("logout/", LogoutView.as_view(), name="logout"),
+    path("register/", RegisterView.as_view(), name="register"),
     path("recipes/", AllRecipesView.as_view(), name="all_recipes"),
 ]
