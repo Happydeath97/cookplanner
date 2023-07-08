@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{Title}}</title>
+          <style>
+  /* Table styles */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th,
+  td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  /* Alternate row colors */
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  /* Hover effect */
+  tr:hover {
+    background-color: #e2e2e2;
+  }
+</style>
+</head>
+
+<table>
+  <colgroup span="4"></colgroup>
+  <tr>
+    <th>Name</th>
+    <th>Preparation time</th>
+    <th>Cook time</th>
+    <th>Difficulty</th>
+    <th>Description</th>
+    <th>Taste</th>
+    <th>Rating</th>
+    <th>Ingredients</th>
+  </tr>
+
+  {% for recipe in recipes %}
+  <tr>
+    <td>{{ recipe.name }}</td>
+    <td>{{ recipe.prep_time }}</td>
+    <td>{{ recipe.cook_time }}</td>
+    <td>{{ recipe.difficulty }}</td>
+    <td>{{ recipe.description }}</td>
+    <td>{{ recipe.taste.name }}</td>
+    <td>{{ recipe.rating }}</td>
+    <td>
+      <ul>
+        {% for ingredient in recipe.ingredients.all %}
+        <li>{{ ingredient.name }}</li>
+        {% endfor %}
+      </ul>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+</body>
+</html>

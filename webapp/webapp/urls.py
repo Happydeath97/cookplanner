@@ -18,8 +18,10 @@ from django.contrib import admin
 from django.urls import path
 
 from cookplanner_app import views
+from cookplanner_app.views import AllRecipesView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.IndexView.as_view(), name="index"),
+    path("recipes/", AllRecipesView.as_view(), name="all_recipes"),
 ]
