@@ -52,5 +52,3 @@ class RecipeIngredients(models.Model):
 
     def __repr__(self):
         return f"{self.ingredients.name} -> {self.recipe.name} {self.amount}g"
-
-
