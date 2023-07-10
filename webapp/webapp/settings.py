@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'django.contrib.sites',
     "cookplanner_app.apps.CookplanerAppConfig",
-    "users",
+    "users.apps.UsersConfig",
 
 ]
 
@@ -127,3 +127,5 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "users.User"
+
+SITE_ID=1

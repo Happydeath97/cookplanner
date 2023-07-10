@@ -6,7 +6,6 @@ from users.models import User
 from cookplanner_app.models import Recipe
 
 
-
 # Create your views here.
 
 class IndexView(View):

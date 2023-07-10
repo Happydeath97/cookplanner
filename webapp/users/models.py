@@ -7,6 +7,7 @@ from cookplanner_app.models import Recipe
 
 class User(AbstractUser):
     date_of_birth = models.DateField(null=True, blank=True)
+    email = models.EmailField()
 
 
 class UserProfile(models.Model):
