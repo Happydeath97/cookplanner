@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.template.response import TemplateResponse
 from django.shortcuts import redirect, resolve_url, render
 from django.contrib.auth import authenticate, login, logout
-from users.models import User
+from users.models import User, UserProfile
 from django.contrib import messages
 from .forms import UserRegistrationForm, LoginForm
 
@@ -17,7 +17,9 @@ class RegisterView(View):
     def post(self, request, *args, **kwargs):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+
+            UserProfile.objects.create(user=user)
 
             messages.success(request, f'Your account has been created. You can log in now!')
             return redirect('login')

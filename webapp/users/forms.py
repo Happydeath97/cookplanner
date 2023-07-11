@@ -1,10 +1,10 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import User
-
+from django.forms.widgets import DateInput
 
 class UserRegistrationForm(UserCreationForm):
-    date_of_birth = forms.DateField()
+    date_of_birth = forms.DateField(widget=DateInput(attrs={'type': 'date'}))
     email = forms.EmailField()
 
     class Meta:

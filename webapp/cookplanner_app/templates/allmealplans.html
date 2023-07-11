@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Meal Plans
+{% endblock %}
+
+{% block main %}
+<h3>Your Meal Plans</h3>
+<table>
+    <tr>
+        <th>Name</th>
+    </tr>
+
+  {% for mealplan in mealplans %}
+  <tr>
+    <td>
+        <a href="{% url 'mealplan' %}">
+            {{ mealplan.name }}
+        </a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+<h4>Create new Meal Plan <a href="{% url 'create_mealplan' %}">HERE</a></h4>
+{% endblock %}

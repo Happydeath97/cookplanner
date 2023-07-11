@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from cookplanner_app.views import IndexView, AllRecipesView
+from cookplanner_app.views import IndexView, AllRecipesView, AllMealPlansView, MealPlanView, CreateMealPlanView
 from users.views import LoginView, LogoutView, RegisterView
 
 urlpatterns = [
@@ -26,4 +26,7 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="logout"),
     path("register/", RegisterView.as_view(), name="register"),
     path("recipes/", AllRecipesView.as_view(), name="all_recipes"),
+    path("mealplans/", AllMealPlansView.as_view(), name="all_mealplans"),
+    path("mealplan/", MealPlanView.as_view(), name="mealplan"),
+    path("createmealplan/", CreateMealPlanView.as_view(), name="create_mealplan"),
 ]
