@@ -45,7 +45,8 @@ class Recipe(models.Model):
 class RecipeIngredients(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.PROTECT)
     ingredients = models.ForeignKey(Ingredients, on_delete=models.PROTECT)
-    amount = models.IntegerField()
+    amount = models.PositiveIntegerField()
+    unit = models.CharField(default='g', max_length=10)
 
     def __str__(self):
         return f"{self.ingredients.name} -> {self.recipe.name} {self.amount}g"

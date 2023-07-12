@@ -26,6 +26,17 @@ class AllRecipesView(View):
         return TemplateResponse(request, "recipes.html", context=context)
 
 
+class RecipeView(View):
+
+    def get(self, request, recipe_id, *args, **kwargs):
+        recipe = Recipe.objects.get(id=recipe_id)
+        context = {
+            'recipe': recipe
+        }
+
+        return TemplateResponse(request, "recipe.html", context=context)
+
+
 class AllMealPlansView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         user = request.user
@@ -40,8 +51,9 @@ class AllMealPlansView(LoginRequiredMixin, View):
 
 class MealPlanView(LoginRequiredMixin, View):
     def get(self, request, meal_plan_id, *args, **kwargs):
-        # Dictionary to store the ingredient amounts
+
         ingredient_amounts = defaultdict(int)
+        ingredient_units = {}
         days = {
             'Monday': {'Breakfast': None, 'Lunch': None, 'Snack': None, 'Dinner': None},
             'Tuesday': {'Breakfast': None, 'Lunch': None, 'Snack': None, 'Dinner': None},
@@ -64,14 +76,19 @@ class MealPlanView(LoginRequiredMixin, View):
             for recipe_ingredient in recipe_ingredients:
                 ingredient = recipe_ingredient.ingredients
                 amount = recipe_ingredient.amount
+                unit = recipe_ingredient.unit
 
-                ingredient_amounts[ingredient.name] += amount
+                ingredient_amounts[(ingredient.name, unit)] += amount
+                ingredient_units[(ingredient.name, unit)] = unit
+
+        result = [{'ingredient': ingredient, 'amount': amount, 'unit': unit} for (ingredient, unit), amount in
+                  ingredient_amounts.items()]
 
         context = {
             'meal_plan': {
                 'name': meal_plan.name,
                 'days': days.items(),
-                'ingredient_amounts': ingredient_amounts.items()
+                'ingredient_amounts': result
             }
         }
 

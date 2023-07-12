@@ -10,24 +10,41 @@
 
     <h2>{{ meal_plan.name }}</h2>
 
-<table class="table table-scrollable">
+<table>
     <thead>
         <tr>
-            <th class="col-xs-2"></th>
-            <th class="col-xs-2">Breakfast</th>
-            <th class="col-xs-2">Lunch</th>
-            <th class="col-xs-2">Snack</th>
-            <th class="col-xs-2">Dinner</th>
+            <th></th>
+            <th>Breakfast</th>
+            <th>Lunch</th>
+            <th>Snack</th>
+            <th>Dinner</th>
         </tr>
     </thead>
     <tbody>
         {% for day, value in meal_plan.days %}
         <tr>
             <td>{{ day }}</td>
-            <td>{{ value.Breakfast.recipe }}</td>
-            <td>{{ value.Lunch.recipe }}</td>
-            <td>{{ value.Snack.recipe }}</td>
-            <td>{{ value.Dinner.recipe }}</td>
+            {% if value.Breakfast.recipe %}
+                <td><a href="{% url 'recipe' value.Breakfast.recipe.id %}">{{ value.Breakfast.recipe }}</a></td>
+            {% else %}
+                <td>EMPTY</td>
+            {% endif %}
+            {% if value.Lunch.recipe %}
+                <td><a href="{% url 'recipe' value.Lunch.recipe.id %}">{{ value.Lunch.recipe }}</a></td>
+            {% else %}
+                <td>EMPTY</td>
+            {% endif %}
+            {% if value.Snack.recipe %}
+                <td><a href="{% url 'recipe' value.Snack.recipe.id %}">{{ value.Snack.recipe }}</a></td>
+            {% else %}
+                <td>EMPTY</td>
+            {% endif %}
+            {% if value.Dinner.recipe %}
+                <td><a href="{% url 'recipe' value.Dinner.recipe.id %}">{{ value.Dinner.recipe }}</a></td>
+            {% else %}
+                <td>EMPTY</td>
+            {% endif %}
+
         </tr>
         {% endfor %}
     </tbody>
@@ -35,8 +52,8 @@
 
 <h2>Shopping list for week</h2>
 <ul>
-{% for ingredient, amount in meal_plan.ingredient_amounts %}
-  <li>{{ ingredient }} {{ amount }}g</li>
+{% for item in meal_plan.ingredient_amounts %}
+    <li>{{ item.ingredient }}: {{ item.amount }}{{ item.unit }}</li>
 {% endfor %}
 </ul>
 {% endblock %}
