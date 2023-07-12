@@ -6,5 +6,37 @@
 
 {% block main %}
     <h1>Here you will see a mealplan</h1>
-    <h2>to be implemented</h2>
+    <br>
+
+    <h2>{{ meal_plan.name }}</h2>
+
+<table class="table table-scrollable">
+    <thead>
+        <tr>
+            <th class="col-xs-2"></th>
+            <th class="col-xs-2">Breakfast</th>
+            <th class="col-xs-2">Lunch</th>
+            <th class="col-xs-2">Snack</th>
+            <th class="col-xs-2">Dinner</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for day, value in meal_plan.days %}
+        <tr>
+            <td>{{ day }}</td>
+            <td>{{ value.Breakfast.recipe }}</td>
+            <td>{{ value.Lunch.recipe }}</td>
+            <td>{{ value.Snack.recipe }}</td>
+            <td>{{ value.Dinner.recipe }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Shopping list for week</h2>
+<ul>
+{% for ingredient, amount in meal_plan.ingredient_amounts %}
+  <li>{{ ingredient }} {{ amount }}g</li>
+{% endfor %}
+</ul>
 {% endblock %}

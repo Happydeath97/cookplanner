@@ -27,6 +27,6 @@ urlpatterns = [
     path("register/", RegisterView.as_view(), name="register"),
     path("recipes/", AllRecipesView.as_view(), name="all_recipes"),
     path("mealplans/", AllMealPlansView.as_view(), name="all_mealplans"),
-    path("mealplan/", MealPlanView.as_view(), name="mealplan"),
+    path("mealplan/<int:meal_plan_id>/", MealPlanView.as_view(), name="mealplan"),
     path("createmealplan/", CreateMealPlanView.as_view(), name="create_mealplan"),
 ]

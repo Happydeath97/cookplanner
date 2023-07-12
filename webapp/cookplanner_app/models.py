@@ -84,5 +84,5 @@ class Meal(models.Model):
     category = models.CharField(max_length=10, choices=CATEGORY_CHOICES)
 
     def __str__(self):
-        return f"User: {self.meal_plan.user.username} Mealplan: {self.meal_plan} " \
+        return f"User: {self.meal_plan.user.username} Meal plan: {self.meal_plan} " \
                f"Meal: {self.recipe.name} - {self.day} {self.category}"

@@ -14,7 +14,7 @@
   {% for mealplan in mealplans %}
   <tr>
     <td>
-        <a href="{% url 'mealplan' %}">
+        <a href="{% url 'mealplan' mealplan.id %}">
             {{ mealplan.name }}
         </a>
     </td>
