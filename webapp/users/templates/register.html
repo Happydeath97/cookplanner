@@ -5,6 +5,21 @@
     <title>Title</title>
 </head>
 <body>
-    <h1>Register to be implemented</h1>
+    <h3>Register here</h3>
+    <hr>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+        <div>
+            <p>{{ field.label }}: <br> {{ field }}</p>
+
+            {% for error in field.errors %}
+                <small style="color: red">{{ error }}</small>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        <button type="submit">Register</button>
+    </form>
 </body>
 </html>
