@@ -1,0 +1,104 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit mealplan
+{% endblock %}
+
+{% block main %}
+  <h1>here will be edit</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th></th>
+            <th>Breakfast</th>
+            <th>Lunch</th>
+            <th>Snack</th>
+            <th>Dinner</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for day, value in days %}
+        <tr>
+            <td>{{ day }}</td>
+            {% if value.Breakfast.recipe %}
+                <td><a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Breakfast">{{ value.Breakfast.recipe }}</a></td>
+            {% else %}
+                <td><a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Breakfast">EMPTY</a></td>
+            {% endif %}
+            {% if value.Lunch.recipe %}
+                <td><a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Lunch">{{ value.Lunch.recipe }}</a></td>
+            {% else %}
+                <td><a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Lunch">EMPTY</a></td>
+            {% endif %}
+            {% if value.Snack.recipe %}
+                <td><a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Snack">{{ value.Snack.recipe }}</a></td>
+            {% else %}
+                <td><a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Snack">EMPTY</a></td>
+            {% endif %}
+            {% if value.Dinner.recipe %}
+                <td><a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Dinner">{{ value.Dinner.recipe }}</a></td>
+            {% else %}
+                <td><a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Dinner">EMPTY</a></td>
+            {% endif %}
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="meal-plan-form" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="day" value="">
+            <input type="hidden" name="category" value="">
+            <label for="recipe">Choose meal:</label>
+            <select id="recipe" name="recipe" size="5">
+                {% for recipe in recipes %}
+                    <option value="{{ recipe.id }}">{{ recipe.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Create</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    var modal = document.querySelector(".modal");
+    var openModalLinks = document.querySelectorAll(".open-modal-link");
+    var closeBtn = document.querySelector(".close");
+    var form = document.querySelector("#meal-plan-form");
+    var dayInput = form.querySelector("input[name='day']");
+    var categoryInput = form.querySelector("input[name='category']");
+
+    openModalLinks.forEach(function(link) {
+        link.addEventListener("click", function(event) {
+            event.preventDefault();
+            var day = link.dataset.day;
+            var category = link.dataset.category;
+            console.log(day, category);
+
+            // Set the values of the hidden fields
+            dayInput.value = day;
+            categoryInput.value = category;
+
+            form.action = "{% url 'edit_mealplan' mealplan.id %}";
+            modal.style.display = "block";
+        });
+    });
+
+    closeBtn.addEventListener("click", function() {
+        modal.style.display = "none";
+    });
+
+    window.addEventListener("click", function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+</script>
+{% endblock %}
