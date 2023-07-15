@@ -62,6 +62,7 @@ class MealPlan(models.Model):
     def __str__(self):
         return f"{self.user.username} {self.name}"
 
+
 class Meal(models.Model):
     DAY_CHOICES = [
         ('Monday', 'Monday'),
