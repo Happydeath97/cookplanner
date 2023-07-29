@@ -30,10 +30,11 @@ class Recipe(models.Model):
     difficulty = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(3)])
     description = models.TextField(blank=True)
     taste = models.ForeignKey(Taste, on_delete=models.PROTECT, related_name='taste')
-    url_recipe = models.TextField(blank=True)
+    process = models.TextField(blank=True)
     image = models.ImageField(blank=True, null=True)
     rating = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=5)
     ingredients = models.ManyToManyField(Ingredients, through='RecipeIngredients', related_name='ingredients')
+    validation = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -45,7 +46,7 @@ class Recipe(models.Model):
 class RecipeIngredients(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.PROTECT)
     ingredients = models.ForeignKey(Ingredients, on_delete=models.PROTECT)
-    amount = models.PositiveIntegerField()
+    amount = models.PositiveIntegerField(default=0)
     unit = models.CharField(default='g', max_length=10)
 
     def __str__(self):

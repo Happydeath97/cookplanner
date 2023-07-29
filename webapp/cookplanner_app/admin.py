@@ -17,7 +17,7 @@ class RecipeAdmin(admin.ModelAdmin):
     list_display = [
         "id", "name", "prep_time",
         "cook_time", "difficulty", "description",
-        "taste", "url_recipe", "rating"
+        "taste", "process", "rating"
     ]
     inlines = (RecipeIngredientInline,)
 

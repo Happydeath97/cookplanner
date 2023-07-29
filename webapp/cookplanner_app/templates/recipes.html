@@ -44,25 +44,30 @@
     <th>Taste</th>
     <th>Rating</th>
     <th>Ingredients</th>
+    <th>Validation</th>
+
   </tr>
 
   {% for recipe in recipes %}
   <tr>
-    <td>{{ recipe.name }}</td>
+    <td><a href="{% url 'recipe' recipe.id %}">{{ recipe.name }}</a></td>
     <td>{{ recipe.prep_time }}</td>
     <td>{{ recipe.cook_time }}</td>
     <td>{{ recipe.difficulty }}</td>
-    <td>{{ recipe.description }}</td>
+    <td>{{ recipe.process }}</td>
     <td>{{ recipe.taste.name }}</td>
     <td>{{ recipe.rating }}</td>
+
     <td>
       <ul>
         {% for ingredient in recipe.ingredients.all %}
         <li>{{ ingredient.name }}</li>
         {% endfor %}
       </ul>
+      <td>{{ recipe.validation }}</td>
     </td>
   </tr>
+    </a>
   {% endfor %}
 </table>
 
