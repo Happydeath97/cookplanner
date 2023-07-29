@@ -1,9 +1,22 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Recipe
+    {{recipe.name}}
 {% endblock %}
 
 {% block main %}
-  <h1>Here will be recipe</h1>
+
+{{recipe.name}}
+{{recipe.prep_time}}
+{{recipe.cook_time}}
+{{recipe.difficulty}}
+{{recipe.taste.name}}
+{{recipe.process}}
+{{recipe.image}}
+{{recipe.rating}}
+{% for ingredient in recipe.ingredients.all %}
+        {{ ingredient.name }}
+        {% endfor %}
+{{recipe.validation}}
+
 {% endblock %}

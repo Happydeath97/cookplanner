@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
+from django.http import HttpResponse, HttpResponseForbidden
 from django.template.response import TemplateResponse
 from users.models import User
 from cookplanner_app.models import Recipe, MealPlan, Meal, RecipeIngredients
@@ -7,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 
 from collections import defaultdict
+from cookplanner_app.forms import RecipeForm
 
 # Create your views here.
 
@@ -32,6 +34,31 @@ class RecipeView(View):
         recipe = Recipe.objects.get(id=recipe_id)
         context = {
             'recipe': recipe
+        }
+
+        return TemplateResponse(request, "recipe.html", context=context)
+
+
+class CreateRecipeView(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        form = RecipeForm()
+
+        return TemplateResponse(request, "create_recipe.html", context={"form": form})
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return HttpResponseForbidden()
+
+        form = RecipeForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            recipe = form.save()
+        else:
+            print(form.errors)
+
+
+        context = {
+            'form': form
         }
 
         return TemplateResponse(request, "recipe.html", context=context)
