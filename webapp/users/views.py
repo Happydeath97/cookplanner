@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse
@@ -58,3 +59,26 @@ class LogoutView(View):
     def get(self, request, *args, **kwargs):
         logout(request)
         return redirect('index')
+
+
+class UserProfileView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        user_profile = UserProfile.objects.get(user=user)
+
+        context = {
+            "user": user,
+            "profile": user_profile
+        }
+
+        return TemplateResponse(request, "userprofile.html", context={"user": request.user})
+
+    def post(self, request, *args, **kwargs):
+        if request.POST.get('username'):
+            print(request.POST.get('username'))
+        elif request.POST.get('email'):
+            print(request.POST.get('email'))
+        elif request.POST.get('dob'):
+            print(request.POST.get('dob'))
+
+        return redirect("profile")

@@ -52,6 +52,7 @@
     <!-- Modal content -->
     <div class="modal-content">
         <span class="close">&times;</span>
+
         <form id="meal-plan-form" method="POST" action = "{% url 'edit_mealplan' mealplan.id %}">
             {% csrf_token %}
             <input type="hidden" name="day" value="">

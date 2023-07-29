@@ -3,12 +3,12 @@ from django.views import View
 from django.http import HttpResponse, HttpResponseForbidden
 from django.template.response import TemplateResponse
 from users.models import User
-from cookplanner_app.models import Recipe, MealPlan, Meal, RecipeIngredients
+from cookplanner_app.models import Recipe, MealPlan, Meal, RecipeIngredients, Comment
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 
 from collections import defaultdict
-from cookplanner_app.forms import RecipeForm
+from cookplanner_app.forms import RecipeForm, CommentForm
 
 # Create your views here.
 
@@ -32,11 +32,51 @@ class RecipeView(View):
 
     def get(self, request, recipe_id, *args, **kwargs):
         recipe = Recipe.objects.get(id=recipe_id)
+        comments = Comment.objects.all().filter(recipe=recipe)
         context = {
-            'recipe': recipe
+            'recipe': recipe,
+            'comment_form': CommentForm(),
+            'comments': comments,
         }
 
         return TemplateResponse(request, "recipe.html", context=context)
+
+
+class AddCommentView(LoginRequiredMixin, View):
+    def post(self, request, recipe_id, *args, **kwargs):
+        recipe = Recipe.objects.get(id=recipe_id)
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            user = request.user
+            stars = form.cleaned_data['stars']
+            text = form.cleaned_data['text']
+
+            # Check if the user has already commented on this recipe
+            existing_comment = Comment.objects.filter(user=user, recipe=recipe).first()
+
+            if existing_comment:
+                # TODO: make error and separated edit view for comments
+                # User has already commented, update the existing comment
+                existing_comment.stars = stars
+                existing_comment.text = text
+                existing_comment.save()
+
+            else:
+                # User is commenting for the first time on this recipe
+                Comment.objects.create(user=user, recipe=recipe, stars=stars, text=text)
+
+        return redirect("recipe", recipe_id=recipe_id)
+
+
+class CommentDelete(LoginRequiredMixin, View):
+    def post(self, request, recipe_id, comment_id, *args, **kwargs):
+        comment = Comment.objects.get(id=comment_id)
+
+        if request.user == comment.user:
+            comment.delete()
+
+        return redirect("recipe", recipe_id=recipe_id)
 
 
 class CreateRecipeView(LoginRequiredMixin, View):
@@ -45,6 +85,7 @@ class CreateRecipeView(LoginRequiredMixin, View):
         form = RecipeForm()
 
         return TemplateResponse(request, "create_recipe.html", context={"form": form})
+
     def post(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return HttpResponseForbidden()
@@ -55,7 +96,6 @@ class CreateRecipeView(LoginRequiredMixin, View):
             recipe = form.save()
         else:
             print(form.errors)
-
 
         context = {
             'form': form
@@ -112,11 +152,9 @@ class MealPlanView(LoginRequiredMixin, View):
                   ingredient_amounts.items()]
 
         context = {
-            'meal_plan': {
-                'name': meal_plan.name,
-                'days': days.items(),
-                'ingredient_amounts': result
-            }
+            'meal_plan': meal_plan,
+            'days': days.items(),
+            'ingredient_amounts': result
         }
 
         return TemplateResponse(request, "mealplan.html", context=context)
@@ -183,3 +221,13 @@ class EditMealPlanView(LoginRequiredMixin, View):
             meal.save()
 
         return redirect("edit_mealplan", meal_plan_id=meal_plan_id)
+
+
+class DeleteMealPlanView(LoginRequiredMixin, View):
+    def post(self, request, meal_plan_id, *args, **kwargs):
+        mealplan = MealPlan.objects.get(id=meal_plan_id)
+
+        if request.user == mealplan.user:
+            mealplan.delete()
+
+        return redirect("all_mealplans")

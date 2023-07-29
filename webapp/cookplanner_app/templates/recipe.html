@@ -19,4 +19,34 @@
         {% endfor %}
 {{recipe.validation}}
 
+{% if user.is_authenticated %}
+    <p>
+        <form action="{% url 'comment_recipe' recipe.id %}" method="POST">
+            {% csrf_token %}
+            {% for field in comment_form %}
+                <p>{{ field.label }}: <br> {{ field }}</p>
+            {% endfor %}
+            <button type="submit">Comment</button>
+        </form>
+    </p>
+{% endif %}
+
+<p>
+    {% for comment in comments %}
+    <div>
+        User: {{ comment.user.username }}
+        Rating: {{ comment.stars }}
+        <br>
+        {{ comment.text }}
+        {% if user.is_authenticated and  comment.user == user %}
+            <form method="post" action="{%url 'comment_delete' recipe.id comment.id %}">
+                {% csrf_token %}
+                <button class="delete" name="button" value="sub">DELETE</button>
+            </form>
+        {% endif %}
+        <br>
+        <br>
+    </div>
+    {% endfor %}
+</p>
 {% endblock %}

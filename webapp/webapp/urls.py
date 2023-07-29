@@ -17,8 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from cookplanner_app.views import IndexView, AllRecipesView, AllMealPlansView, MealPlanView, CreateMealPlanView, \
-    RecipeView, EditMealPlanView, CreateRecipeView
-from users.views import LoginView, LogoutView, RegisterView
+    RecipeView, EditMealPlanView, CreateRecipeView, AddCommentView, CommentDelete, DeleteMealPlanView
+from users.views import LoginView, LogoutView, RegisterView, UserProfileView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -33,4 +33,8 @@ urlpatterns = [
     path("mealplan/<int:meal_plan_id>/", MealPlanView.as_view(), name="mealplan"),
     path("createmealplan/", CreateMealPlanView.as_view(), name="create_mealplan"),
     path("editmealplan/<int:meal_plan_id>/", EditMealPlanView.as_view(), name="edit_mealplan"),
+    path("profile/", UserProfileView.as_view(), name="profile"),
+    path("recipe/<int:recipe_id>/add comment/", AddCommentView.as_view(), name="comment_recipe"),
+    path("recipe/<int:recipe_id>/comment/<int:comment_id>/delete/", CommentDelete.as_view(), name="comment_delete"),
+    path("deletemealplan/<int:meal_plan_id>/", DeleteMealPlanView.as_view(), name="delete_mealplan"),
 ]

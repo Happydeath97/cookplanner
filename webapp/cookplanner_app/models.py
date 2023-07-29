@@ -1,5 +1,8 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
+from django.db.models import Avg
 
 
 # Create your models here.
@@ -32,7 +35,7 @@ class Recipe(models.Model):
     taste = models.ForeignKey(Taste, on_delete=models.PROTECT, related_name='taste')
     process = models.TextField(blank=True)
     image = models.ImageField(blank=True, null=True)
-    rating = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=5)
+    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], default=5)
     ingredients = models.ManyToManyField(Ingredients, through='RecipeIngredients', related_name='ingredients')
     validation = models.BooleanField(default=False)
 
@@ -89,3 +92,33 @@ class Meal(models.Model):
     def __str__(self):
         return f"User: {self.meal_plan.user.username} Meal plan: {self.meal_plan} " \
                f"Meal: {self.recipe.name} - {self.day} {self.category}"
+
+
+class Comment(models.Model):
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    stars = models.PositiveSmallIntegerField(choices=[(i, str(i)) for i in range(1, 6)], null=True, blank=True)
+    text = models.TextField(max_length=1000)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        # Make sure a user can only comment once on a recipe
+        unique_together = ('user', 'recipe')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.recipe.name}"
+
+
+@receiver(post_save, sender=Comment)
+@receiver(post_delete, sender=Comment)
+def update_recipe_rating(sender, instance, **kwargs):
+    recipe = instance.recipe
+    comments = Comment.objects.filter(recipe=recipe, stars__isnull=False)
+
+    if comments.exists():
+        avg_rating = comments.aggregate(Avg('stars'))['stars__avg']
+        recipe.rating = round(avg_rating)
+    else:
+        recipe.rating = 5
+
+    recipe.save()
