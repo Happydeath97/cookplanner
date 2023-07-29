@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <h1>This is {{user.username}} Profile</h1>
+
+    <div style="display: flex">
+        <div style="flex: 50%">
+            {{profile.image}}
+        </div>
+        <div style="flex: 50%">
+
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div id="usernameField">{{ user.username }}</div>
+                <input id="usernameInput" type="text" name="username" placeholder="New Username" style="display: none">
+                <button id="usernameSave" type="submit" style="display: none">Save</button>
+            </form>
+            <button id="usernameEdit" onclick="editField('username')">Edit</button>
+
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div id="emailField">{{ user.email }}</div>
+                <input id="emailInput" type="email" name="email" placeholder="New email" style="display: none">
+                <button id="emailSave" type="submit" style="display: none">Save</button>
+            </form>
+            <button id="emailEdit" onclick="editField('email')">Edit</button>
+
+
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div id="dobField">{{ user.date_of_birth }}</div>
+                <input id="dobInput" type="date" name="dob" style="display: none">
+                <button id="dobSave" type="submit" style="display: none">Save</button>
+            </form>
+            <button id="dobEdit" onclick="editField('dob')">Edit</button>
+        </div>
+    </div>
+
+    <script>
+        function editField(fieldName) {
+            var fieldElement = document.getElementById(fieldName + 'Field');
+            var editElement = document.getElementById(fieldName + 'Edit');
+            var inputElement = document.getElementById(fieldName + 'Input');
+            var saveElement = document.getElementById(fieldName + 'Save');
+
+            fieldElement.style.display = 'none';  // Set display to 'none' for the first field
+            editElement.style.display = 'none';
+
+            inputElement.style.display = 'block';  // Set display to 'block' for the other two fields
+            saveElement.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

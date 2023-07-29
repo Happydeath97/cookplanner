@@ -9,6 +9,11 @@
     <br>
 
     <h2>{{ meal_plan.name }}</h2>
+    <h3><a href="{% url 'edit_mealplan' meal_plan.id %}">EDIT</a></h3>
+    <form method="post" action="{% url 'delete_mealplan' meal_plan.id %}">
+        {% csrf_token %}
+        <button class="delete" name="button" value="sub">DELETE</button>
+    </form>
 
 <table>
     <thead>
@@ -21,7 +26,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for day, value in meal_plan.days %}
+        {% for day, value in days %}
         <tr>
             <td>{{ day }}</td>
             {% if value.Breakfast.recipe %}
@@ -52,7 +57,7 @@
 
 <h2>Shopping list for a week</h2>
 <ul>
-{% for item in meal_plan.ingredient_amounts %}
+{% for item in ingredient_amounts %}
     <li>{{ item.ingredient }}: {{ item.amount }}{{ item.unit }}</li>
 {% endfor %}
 </ul>

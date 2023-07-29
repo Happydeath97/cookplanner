@@ -13,6 +13,7 @@ class User(AbstractUser):
 class UserProfile(models.Model):
     favorites = models.ManyToManyField(Recipe, related_name='favorites', blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    image = models.ImageField(blank=True, null=True)
 
     def __str__(self):
         return repr(self)
