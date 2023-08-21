@@ -71,7 +71,7 @@ class UserProfileView(LoginRequiredMixin, View):
             "profile": user_profile
         }
 
-        return TemplateResponse(request, "userprofile.html", context={"user": request.user})
+        return TemplateResponse(request, "userprofile.html", context=context)
 
     def post(self, request, *args, **kwargs):
         if request.POST.get('username'):
