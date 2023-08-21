@@ -1,0 +1,59 @@
+
+/* styles.css */
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10%;
+}
+
+.grid-container {
+    flex: 2;
+    padding: 10px;
+    margin: 0 5%;
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 8 equal-width columns */
+    grid-template-rows: repeat(8, 1fr);    /* 5 equal-height rows */
+    gap: 10px; /* Add some gap between grid items */
+}
+
+.grid-item {
+    /* Add styles for individual grid items */
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Apply different shades of green based on the pattern */
+.grid-item:nth-child(10n + 1),
+.grid-item:nth-child(10n + 2),
+.grid-item:nth-child(10n + 3),
+.grid-item:nth-child(10n + 4),
+.grid-item:nth-child(10n + 5) {
+    background-color: rgba(158, 178, 59); /* Light green */
+}
+
+.grid-item:nth-child(10n + 6),
+.grid-item:nth-child(10n + 7),
+.grid-item:nth-child(10n + 8),
+.grid-item:nth-child(10n + 9),
+.grid-item:nth-child(10n + 10) {
+    background-color:rgba(199, 211, 111); /* Dark green */
+}
+
+.name-container {
+    text-align: center;
+}
+
+.shopping-container {
+    flex: 1;
+    padding: 10px;
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.39);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+
+}

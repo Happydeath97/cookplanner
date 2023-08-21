@@ -1,38 +1,51 @@
 <!DOCTYPE html>
-
+{% load static %}
 <html lang="en">
-
     <head>
-
         <meta charset="UTF-8">
         <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
               name="viewport">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>CookPlan: {% block title %}{% endblock %}</title>
-
+        <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+        {% block link %}{% endblock %}
     </head>
 
     <body>
-
+        <img class="wallpaper" src="{% static 'images/bricks.jpg' %}" alt="My image">
         <header>
-            <nav>
-                <!-- navbar to be implemented -->
+            <nav id='menu'>
+              <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
+              <ul>
+                <li class='left'>
+                    <a href="{% url 'index' %}">Home</a>
+                </li>
+                <li class='left'>
+                    <a href="{% url 'all_recipes' %}">Recipes</a>
+                </li>
                 {% if user.is_authenticated %}
-                    <h2>Username: <a href="{% url 'profile' %}">{{user.username}}</a></h2>
-                    <h3><a href="{% url 'logout' %}">Logout</a></h3>
+                <li class='left'>
+                    <a href="{% url 'all_mealplans' %}">Meal Plans</a>
+                </li>
+                <li class='left'>
+                    <a href="{% url 'create_view' %}">Create Recipe</a>
+                </li>
+                {% endif %}
+                <li class='left'>
+                    <a href='http://'>Contact Us</a>
+                </li>
+                {% if user.is_authenticated %}
+                    <li class='right'><a href="{% url 'logout' %}">Logout</a></li>
+                    <li class='right'><a href="{% url 'profile' %}">{{user.username}}</a></li>
                 {% else %}
-                    <h3><a href="{% url 'login' %}">Login</a></h3>
-                    <h3><a href="{% url 'register' %}">Register</a></h3>
+                    <li class='right'><a href="{% url 'login' %}">Login</a></li>
+                    <li class='right'><a href="{% url 'register' %}">Register</a></li>
                 {% endif %}
-                <h3><a href="{% url 'all_recipes' %}">Recipes</a></h3>
-                {% if user.is_authenticated %}
-                    <h3><a href="{% url 'all_mealplans' %}">Meal Plans</a></h3>
-                    <h3><a href="{% url 'create_view' %}">Create Recipe</a></h3>
-                {% endif %}
+              </ul>
             </nav>
         </header>
 
-        <main>
+        <main class="main">
             {% block main %}{% endblock %}
         </main>
 

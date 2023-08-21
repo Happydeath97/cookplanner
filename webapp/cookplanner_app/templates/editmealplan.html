@@ -1,51 +1,76 @@
 {% extends "layout.html" %}
+{% load static %}
 
 {% block title %}
     Edit mealplan
 {% endblock %}
 
+{% block link %}
+    <link rel="stylesheet" href="{% static 'css/editmealplan.css' %}">
+{% endblock %}
+
 {% block main %}
-  <h1>here will be edit</h1>
 
-<table>
-    <thead>
-        <tr>
-            <th></th>
-            <th>Breakfast</th>
-            <th>Lunch</th>
-            <th>Snack</th>
-            <th>Dinner</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for day, value in days %}
-        <tr>
-            <td>{{ day }}</td>
-            {% if value.Breakfast.recipe %}
-                <td><a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Breakfast">{{ value.Breakfast.recipe }}</a></td>
-            {% else %}
-                <td><a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Breakfast">EMPTY</a></td>
-            {% endif %}
-            {% if value.Lunch.recipe %}
-                <td><a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Lunch">{{ value.Lunch.recipe }}</a></td>
-            {% else %}
-                <td><a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Lunch">EMPTY</a></td>
-            {% endif %}
-            {% if value.Snack.recipe %}
-                <td><a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Snack">{{ value.Snack.recipe }}</a></td>
-            {% else %}
-                <td><a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Snack">EMPTY</a></td>
-            {% endif %}
-            {% if value.Dinner.recipe %}
-                <td><a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Dinner">{{ value.Dinner.recipe }}</a></td>
-            {% else %}
-                <td><a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Dinner">EMPTY</a></td>
-            {% endif %}
-
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="grid-container">
+    <div class="grid-item"></div>
+    <div class="grid-item">Breakfast</div>
+    <div class="grid-item">Lunch</div>
+    <div class="grid-item">Snack</div>
+    <div class="grid-item">Dinner</div>
+    {% for day, value in days %}
+        <div class="grid-item"> {{ day }} </div>
+        {% if value.Breakfast.recipe %}
+            <div class="grid-item">
+                <a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Breakfast">
+                    {{ value.Breakfast.recipe }}
+                </a>
+            </div>
+        {% else %}
+            <div class="grid-item">
+                <a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Breakfast">
+                    EMPTY</a></div>
+        {% endif %}
+        {% if value.Lunch.recipe %}
+            <div class="grid-item">
+                <a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Lunch">
+                    {{ value.Lunch.recipe }}
+                </a>
+            </div>
+        {% else %}
+            <div class="grid-item">
+                <a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Lunch">
+                    EMPTY
+                </a>
+            </div>
+        {% endif %}
+        {% if value.Snack.recipe %}
+            <div class="grid-item">
+                <a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Snack">
+                    {{ value.Snack.recipe }}
+                </a>
+            </div>
+        {% else %}
+            <div class="grid-item">
+                <a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Snack">
+                    EMPTY
+                </a>
+            </div>
+        {% endif %}
+        {% if value.Dinner.recipe %}
+            <div class="grid-item">
+                <a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Dinner">
+                    {{ value.Dinner.recipe }}
+                </a>
+            </div>
+        {% else %}
+            <div class="grid-item">
+                <a href="#" class="open-modal-link" data-day="{{ day }}" data-category="Dinner">
+                    EMPTY
+                </a>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
 
 <!-- Modal -->
 <div class="modal" style="display: none">
@@ -68,37 +93,5 @@
     </div>
 </div>
 
-<script>
-    var modal = document.querySelector(".modal");
-    var openModalLinks = document.querySelectorAll(".open-modal-link");
-    var closeBtn = document.querySelector(".close");
-    var form = document.querySelector("#meal-plan-form");
-    var dayInput = form.querySelector("input[name='day']");
-    var categoryInput = form.querySelector("input[name='category']");
-
-    openModalLinks.forEach(function(link) {
-        link.addEventListener("click", function(event) {
-            event.preventDefault();
-            var day = link.dataset.day;
-            var category = link.dataset.category;
-            console.log(day, category);
-
-            // Set the values of the hidden fields
-            dayInput.value = day;
-            categoryInput.value = category;
-
-            modal.style.display = "block";
-        });
-    });
-
-    closeBtn.addEventListener("click", function() {
-        modal.style.display = "none";
-    });
-
-    window.addEventListener("click", function(event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    });
-</script>
+<script src="{% static 'javascript/editmealplan.js' %}"></script>
 {% endblock %}

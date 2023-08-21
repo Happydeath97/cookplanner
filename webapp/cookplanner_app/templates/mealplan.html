@@ -1,64 +1,67 @@
 {% extends "layout.html" %}
+{% load static %}
 
 {% block title %}
     Meal Plan
 {% endblock %}
 
+{% block link %}
+    <link rel="stylesheet" href="{% static 'css/mealplan.css' %}">
+{% endblock %}
+
 {% block main %}
-    <h1>Here you will see a mealplan</h1>
-    <br>
-
+<div class="name-container">
+    <h1>Weekly Meal Plan</h1>
     <h2>{{ meal_plan.name }}</h2>
-    <h3><a href="{% url 'edit_mealplan' meal_plan.id %}">EDIT</a></h3>
-    <form method="post" action="{% url 'delete_mealplan' meal_plan.id %}">
-        {% csrf_token %}
-        <button class="delete" name="button" value="sub">DELETE</button>
-    </form>
+</div>
+<br>
 
-<table>
-    <thead>
-        <tr>
-            <th></th>
-            <th>Breakfast</th>
-            <th>Lunch</th>
-            <th>Snack</th>
-            <th>Dinner</th>
-        </tr>
-    </thead>
-    <tbody>
+<h3><a href="{% url 'edit_mealplan' meal_plan.id %}">EDIT</a></h3>
+<form method="post" action="{% url 'delete_mealplan' meal_plan.id %}">
+    {% csrf_token %}
+    <button class="delete" name="button" value="sub">DELETE</button>
+</form>
+
+<div class="main-container">
+    <div class="grid-container">
+        <div class="grid-item" style="visibility: hidden;"></div>
+        <div class="grid-item">Breakfast</div>
+        <div class="grid-item">Lunch</div>
+        <div class="grid-item">Snack</div>
+        <div class="grid-item">Dinner</div>
         {% for day, value in days %}
-        <tr>
-            <td>{{ day }}</td>
+            <div class="grid-item"> {{ day }} </div>
             {% if value.Breakfast.recipe %}
-                <td><a href="{% url 'recipe' value.Breakfast.recipe.id %}">{{ value.Breakfast.recipe }}</a></td>
+                <div class="grid-item"><a href="{% url 'recipe' value.Breakfast.recipe.id %}">{{ value.Breakfast.recipe }}</a></div>
             {% else %}
-                <td>EMPTY</td>
+                <div class="grid-item">EMPTY</div>
             {% endif %}
             {% if value.Lunch.recipe %}
-                <td><a href="{% url 'recipe' value.Lunch.recipe.id %}">{{ value.Lunch.recipe }}</a></td>
+                <div class="grid-item"><a href="{% url 'recipe' value.Lunch.recipe.id %}">{{ value.Lunch.recipe }}</a></div>
             {% else %}
-                <td>EMPTY</td>
+                <div class="grid-item">EMPTY</div>
             {% endif %}
             {% if value.Snack.recipe %}
-                <td><a href="{% url 'recipe' value.Snack.recipe.id %}">{{ value.Snack.recipe }}</a></td>
+                <div class="grid-item"><a href="{% url 'recipe' value.Snack.recipe.id %}">{{ value.Snack.recipe }}</a></div>
             {% else %}
-                <td>EMPTY</td>
+                <div class="grid-item">EMPTY</div>
             {% endif %}
             {% if value.Dinner.recipe %}
-                <td><a href="{% url 'recipe' value.Dinner.recipe.id %}">{{ value.Dinner.recipe }}</a></td>
+                <div class="grid-item"><a href="{% url 'recipe' value.Dinner.recipe.id %}">{{ value.Dinner.recipe }}</a></div>
             {% else %}
-                <td>EMPTY</td>
+                <div class="grid-item">EMPTY</div>
             {% endif %}
-
-        </tr>
         {% endfor %}
-    </tbody>
-</table>
+    </div>
 
-<h2>Shopping list for a week</h2>
-<ul>
-{% for item in ingredient_amounts %}
-    <li>{{ item.ingredient }}: {{ item.amount }}{{ item.unit }}</li>
-{% endfor %}
-</ul>
+    <div class="shopping-container">
+        <h2>Shopping list for a week</h2>
+        <ul>
+        {% for item in ingredient_amounts %}
+            <li>{{ item.ingredient }}: {{ item.amount }}{{ item.unit }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+
 {% endblock %}
