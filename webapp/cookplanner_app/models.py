@@ -26,10 +26,9 @@ class Taste(models.Model):
 
 
 class Recipe(models.Model):
-
     name = models.CharField(max_length=50)
-    prep_time = models.DurationField()
-    cook_time = models.DurationField()
+    prep_time = models.PositiveIntegerField(default=0)
+    cook_time = models.PositiveIntegerField(default=0)
     difficulty = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(3)])
     description = models.TextField(blank=True)
     taste = models.ForeignKey(Taste, on_delete=models.PROTECT, related_name='taste')
@@ -38,6 +37,7 @@ class Recipe(models.Model):
     rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], default=5)
     ingredients = models.ManyToManyField(Ingredients, through='RecipeIngredients', related_name='ingredients')
     validation = models.BooleanField(default=False)
+    calorie = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.name

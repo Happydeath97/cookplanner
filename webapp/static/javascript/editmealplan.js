@@ -1,15 +1,15 @@
-var modal = document.querySelector(".modal");
-var openModalLinks = document.querySelectorAll(".open-modal-link");
-var closeBtn = document.querySelector(".close");
-var form = document.querySelector("#meal-plan-form");
-var dayInput = form.querySelector("input[name='day']");
-var categoryInput = form.querySelector("input[name='category']");
+const modal = document.querySelector(".modal");
+const openModalLinks = document.querySelectorAll(".open-modal-link");
+const closeBtn = document.querySelector(".close");
+const form = document.querySelector("#meal-plan-form");
+const dayInput = form.querySelector("input[name='day']");
+const categoryInput = form.querySelector("input[name='category']");
 
 openModalLinks.forEach(function(link) {
     link.addEventListener("click", function(event) {
         event.preventDefault();
-        var day = link.dataset.day;
-        var category = link.dataset.category;
+        const day = link.dataset.day;
+        const category = link.dataset.category;
 
         // Set the values of the hidden fields
         dayInput.value = day;

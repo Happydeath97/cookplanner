@@ -17,10 +17,37 @@ th {
 
 /* Alternate row colors */
 tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #f9f9f9ff;
 }
 
 /* Hover effect */
 tr:hover {
-    background-color: #e2e2e2;
+    background-color: #d2d2d2;
+}
+
+.parent-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.food-container {
+    width: 50dvw; /* Adjust the width as needed */
+    height: 50dvh; /* Adjust the height as needed */
+    background-color: lightgray;
+    text-align: center;
+    padding: 20px;
+    margin: 10px 0; /* Add some vertical spacing between the .centered-div elements */
+}
+.left-container {
+
+}
+.food-name {
+
+}
+.food-picture {
+
+}
+.right-container {
+
 }

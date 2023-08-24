@@ -7,41 +7,40 @@
               name="viewport">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>CookPlan: {% block title %}{% endblock %}</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+        <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}" >
         <link rel="stylesheet" href="{% static 'css/layout.css' %}">
         {% block link %}{% endblock %}
     </head>
 
     <body>
-        <img class="wallpaper" src="{% static 'images/bricks.jpg' %}" alt="My image">
+        <img class="wallpaper" src="{% static 'images/bricks.jpg' %}" alt="background photo of bricked wall">
         <header>
             <nav id='menu'>
-              <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
-              <ul>
-                <li class='left'>
-                    <a href="{% url 'index' %}">Home</a>
-                </li>
-                <li class='left'>
-                    <a href="{% url 'all_recipes' %}">Recipes</a>
-                </li>
-                {% if user.is_authenticated %}
-                <li class='left'>
-                    <a href="{% url 'all_mealplans' %}">Meal Plans</a>
-                </li>
-                <li class='left'>
-                    <a href="{% url 'create_view' %}">Create Recipe</a>
-                </li>
-                {% endif %}
-                <li class='left'>
-                    <a href='http://'>Contact Us</a>
-                </li>
-                {% if user.is_authenticated %}
-                    <li class='right'><a href="{% url 'logout' %}">Logout</a></li>
-                    <li class='right'><a href="{% url 'profile' %}">{{user.username}}</a></li>
-                {% else %}
-                    <li class='right'><a href="{% url 'login' %}">Login</a></li>
-                    <li class='right'><a href="{% url 'register' %}">Register</a></li>
-                {% endif %}
-              </ul>
+                <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
+                <ul>
+                    <li class='left'>
+                        <a href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li class='left'>
+                        <a href="{% url 'all_recipes' %}">Recipes</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class='left'>
+                            <a href="{% url 'all_mealplans' %}">Meal Plans</a>
+                        </li>
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
+                        <li class='right'><a href="{% url 'logout' %}">Logout</a></li>
+                        <li class='right'><a href="{% url 'profile' %}">{{user.username}}</a></li>
+                    {% else %}
+                        <li class='right'><a href="{% url 'login' %}">Login</a></li>
+                        <li class='right'><a href="{% url 'register' %}">Register</a></li>
+                    {% endif %}
+                </ul>
             </nav>
         </header>
 
