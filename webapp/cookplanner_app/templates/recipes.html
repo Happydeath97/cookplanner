@@ -16,22 +16,32 @@
         <div class="left-container">
             <div class="food-name">
                 <h3>
-                    {{ recipe.name }}
+                    <a href="{% url 'recipe' recipe.id %}">{{ recipe.name }}</a>
                 </h3>
             </div>
             <div class="food-picture">
+
                 {% if recipe.image %}
-                    <img  src="{% static recipe.image %}" alt="My image">
+                    <img class="food-img" src="{% static recipe.image %}" alt="My image">
                 {% else %}
-                    <img  src="{% static 'images/notavailable.png' %}" alt="My image">
+                    <img class="food-img"  src="{% static 'images/No_image_available.svg.webp' %}" alt="My image">
                 {% endif %}
 
             </div>
         </div>
         <div class="right-container">
-            <div>{{ recipe.rating }}</div>
-            <div>{{ recipe.cook_time }}</div>
-            <div>{{ recipe.difficulty }}</div>
+            <div class="rating">
+                <div>Rating:</div>
+                <div>{{ recipe.rating }}</div>
+            </div>
+            <div class="time">
+                <div>Time:</div>
+                <div>{{ recipe.cook_time }}</div>
+            </div>
+            <div class="difficulty">
+                <div>Difficulty:</div>
+                <div>{{ recipe.difficulty }}</div>
+            </div>
         </div>
     </div>
 {% endfor %}
