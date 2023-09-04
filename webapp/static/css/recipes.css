@@ -1,30 +1,5 @@
-/* Table styles */
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-th,
-td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-th {
-    background-color: #f2f2f2;
-}
-
-/* Alternate row colors */
-tr:nth-child(even) {
-    background-color: #f9f9f9ff;
-}
-
-/* Hover effect */
-tr:hover {
-    background-color: #d2d2d2;
-}
-main {
+a {
+  text-decoration: none;
 }
 .parent-container {
     /*display: flex;
@@ -91,4 +66,28 @@ main {
     .parent-container {
         grid-template-columns: 1fr; /* Display a single column on mobile */
     }
+}
+
+.ps-container {
+    background-color: chartreuse;
+    position: relative;
+    display: inline-block;
+    left: 50%; /* Move the div 50% to the right initially */
+    transform: translateX(-50%);
+    margin-bottom: 20px;
+}
+
+.ps-button {
+    border-style: solid;
+    border-color: #007bff;
+    background-color: #f2f2f2;
+    border-width: 2px;
+    width: 80px;
+    height: 40px;
+    border-radius: 5px;
+    margin-left: 20px;
+}
+
+.ps-button:hover {
+    cursor: pointer;
 }

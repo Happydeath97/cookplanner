@@ -11,26 +11,29 @@
 
 {% block main %}
 
-{{ recipes }}
+<div class="ps-container">
+    {% if recipes.has_previous %}
+        <a href="?page=1">
+            <button class="ps-button">&laquo First</button>
+        </a>
+        <a href="?page={{ recipes.previous_page_number }}">
+            <button class="ps-button">Previous</button>
+        </a>
+    {% endif %}
+
+    Page {{ recipes.number }} of {{ recipes.paginator.num_pages }}
+
+    {% if recipes.has_next %}
+        <a href="?page={{ recipes.next_page_number }}">
+            <button class="ps-button">Next</button>
+        </a>
+        <a href="?page={{ recipes.paginator.num_pages }}">
+            <button class="ps-button">Last &raquo</button>
+        </a>
+    {% endif %}
+</div>
+
 <br>
-Has previous: {{ recipes.has_previous }} <br>
-Has next: {{ recipes.has_next }} <br>
-Current page: {{ recipes.number }} <br>
-Number of pages: {{ recipes.paginator.num_pages }} <br>
-
-{% if recipes.has_previous %}
-    <a href="?page=1">&laquo First</a>
-    <a href="?page={{ recipes.previous_page_number }}">Previous</a>
-{% endif %}
-
-Page {{ recipes.number }} of {{ recipes.paginator.num_pages }}
-
-{% if recipes.has_next %}
-    <a href="?page={{ recipes.next_page_number }}">Next</a>
-    <a href="?page={{ recipes.paginator.num_pages }}">Last &raquo</a>
-{% endif %}
-
-<br><br>
 
 <div class="parent-container">
 {% for recipe in recipes %}
