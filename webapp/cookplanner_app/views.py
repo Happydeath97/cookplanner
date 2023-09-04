@@ -10,6 +10,8 @@ from django.contrib import messages
 from collections import defaultdict
 from cookplanner_app.forms import RecipeForm, CommentForm
 
+from django.core.paginator import Paginator
+
 # Create your views here.
 
 
@@ -22,8 +24,12 @@ class IndexView(View):
 class AllRecipesView(View):
 
     def get(self, request, *args, **kwargs):
+        # Set pagination
+        p = Paginator(Recipe.objects.all(), 20)
+        page = request.GET.get('page')
+        recipes = p.get_page(page)
         context = {
-            "recipes": Recipe.objects.all(),
+            "recipes": recipes
         }
         return TemplateResponse(request, "recipes.html", context=context)
 
