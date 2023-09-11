@@ -6,7 +6,7 @@ const arrayOfSelectedI = [];
 
 // Add an event listener to the input field
 sInputField.addEventListener('keydown', function(event) {
-  if (event.keyCode === 13) { // Check if Enter key (key code 13) is pressed
+  if (event.key === "Enter") { // Check if Enter key (key code 13) is pressed
     event.preventDefault(); // Prevent the default form submission behavior
     sButton.click(); // Programmatically trigger a click event on the Select button
   }
