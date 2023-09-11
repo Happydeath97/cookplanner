@@ -86,72 +86,10 @@
     </div>
 {% endfor %}
 </div>
-<script>
-    const sButton = document.getElementById("selectIngredient");
-    const sInputField = document.getElementById("ingredients");
-    const hInputField = document.getElementById("selectedIngredients");
-    const sItemsContainer = document.getElementById("selectedIngredientsContainer");
-    const arrayOfSelectedI = [];
 
-    $(function () {
-        // Get a list of all ingredients from your view and split them into an array
-        const allIngredients = [{% for ingredient in all_ingredients %}"{{ ingredient }}",{% endfor %}];
-
-        // Initialize autocomplete on the input field
-        $("#ingredients").autocomplete({
-            source: allIngredients,
-            // Specify other options as needed
-        });
-    });
-
-    // Function to update the selected ingredients container
-    function updateSelectedIngredients() {
-        sItemsContainer.innerHTML = ""; // Clear the container
-
-        // Iterate through arrayOfSelectedI and create a div for each selected ingredient
-        arrayOfSelectedI.forEach((ingredient, index) => {
-            const div = document.createElement("div");
-            div.className = "sItem-container";
-
-            // Create a text node with the ingredient
-            const ingredientText = document.createTextNode(ingredient);
-            div.appendChild(ingredientText);
-
-            // Create a button to remove the ingredient
-            const deleteButton = document.createElement("button");
-            deleteButton.textContent = "X";
-            deleteButton.className = "sItem-button";
-            deleteButton.addEventListener("click", () => {
-                // Remove the ingredient from the array
-                arrayOfSelectedI.splice(index, 1);
-
-                // Update the selected ingredients container
-                updateSelectedIngredients();
-                hInputField.value = arrayOfSelectedI.join('&');
-            });
-
-            div.appendChild(deleteButton);
-            sItemsContainer.appendChild(div);
-        });
-    }
-
-
-    // Attach a click event handler to the sButton
-    sButton.addEventListener("click", function (event) {
-        event.preventDefault(); // Prevent the form submission (if it's inside a form)
-
-        // Get the current content of hInputField and sInputField
-        const selectedIngredient = sInputField.value.trim();
-        // Check if sInputField is not empty
-        if (selectedIngredient !== "") {
-            arrayOfSelectedI.push(selectedIngredient);
-            // Clear the sInputField for the next ingredient
-            sInputField.value = "";
-
-            hInputField.value = arrayOfSelectedI.join('&');
-            updateSelectedIngredients();
-        }
-    });
-</script>
+{% for item in all_ingredients%}
+<div class="passing-value" style="visibility: hidden;">{{ item }}</div>
+{% endfor %}
+<script src="{% static 'javascript/recipes.js' %}"></script>
 
 {% endblock %}
