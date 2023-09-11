@@ -38,7 +38,8 @@ class AllRecipesView(View):
         all_ingredients = Ingredients.objects.all()
         context = {
             "recipes": recipes,
-            "all_ingredients": all_ingredients
+            "all_ingredients": all_ingredients,
+            "selected_ingredients": selected_ingredients
         }
         return TemplateResponse(request, "recipes.html", context=context)
 
