@@ -2,10 +2,6 @@ a {
   text-decoration: none;
 }
 .parent-container {
-    /*display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;*/
     width: 80dvw;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjust the minmax values as needed */
@@ -90,4 +86,32 @@ a {
 
 .ps-button:hover {
     cursor: pointer;
+}
+
+.filter-container {
+    background-color: #34a81a;
+}
+
+.input-filter-field {
+
+}
+
+.input-filter-field-button {
+
+}
+
+.selected-ingredients-container {
+
+}
+
+.sItem-container {
+
+}
+
+.sItem-button {
+
+}
+
+.ingredient-form-button {
+
 }

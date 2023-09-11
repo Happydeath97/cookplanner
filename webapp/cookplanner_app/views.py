@@ -2,15 +2,15 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.http import HttpResponse, HttpResponseForbidden
 from django.template.response import TemplateResponse
-from users.models import User
-from cookplanner_app.models import Recipe, MealPlan, Meal, RecipeIngredients, Comment
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+from django.core.paginator import Paginator
 
-from collections import defaultdict
+from users.models import User
+from cookplanner_app.models import Recipe, MealPlan, Meal, RecipeIngredients, Comment, Ingredients
 from cookplanner_app.forms import RecipeForm, CommentForm
 
-from django.core.paginator import Paginator
+from collections import defaultdict
 
 # Create your views here.
 
@@ -24,12 +24,21 @@ class IndexView(View):
 class AllRecipesView(View):
 
     def get(self, request, *args, **kwargs):
-        # Set pagination
-        p = Paginator(Recipe.objects.all(), 20)
+        selected_ingredients = request.GET.get('selectedIngredients')
+        if selected_ingredients:
+            selected_ingredient_list = [ingredient.strip() for ingredient in selected_ingredients.split('&')]
+            query = Recipe.objects.filter(ingredients__name__in=selected_ingredient_list).distinct().order_by('-rating')
+        else:
+            query = Recipe.objects.all().order_by('-rating')
+
+        p = Paginator(query, 20)
         page = request.GET.get('page')
         recipes = p.get_page(page)
+
+        all_ingredients = Ingredients.objects.all()
         context = {
-            "recipes": recipes
+            "recipes": recipes,
+            "all_ingredients": all_ingredients
         }
         return TemplateResponse(request, "recipes.html", context=context)
 
